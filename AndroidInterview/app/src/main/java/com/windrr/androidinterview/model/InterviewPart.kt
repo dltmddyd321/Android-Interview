@@ -17,7 +17,7 @@ val interviewParts = listOf(
         title = "Part 1",
         subtitle = "안드로이드 기초",
         fileName = "interview_questions.json",
-        totalQuestions = 43,
+        totalQuestions = 42,
         topics = listOf("Activity", "Fragment", "Service", "Intent", "Layout"),
         gradientStart = 0xFF3D5AFE,
         gradientEnd = 0xFF00BCD4
@@ -31,5 +31,65 @@ val interviewParts = listOf(
         topics = listOf("AAC", "Coroutine", "Flow", "Compose", "Architecture"),
         gradientStart = 0xFF7C4DFF,
         gradientEnd = 0xFFE91E63
+    ),
+    InterviewPart(
+        partNumber = 3,
+        title = "Part 3",
+        subtitle = "Java 핵심",
+        fileName = "interview_questions_part3.json",
+        totalQuestions = 54,
+        topics = listOf("OOP", "JVM", "Collection", "Thread", "Algorithm"),
+        gradientStart = 0xFFFF6F00,
+        gradientEnd = 0xFFFFCA28
+    ),
+    InterviewPart(
+        partNumber = 4,
+        title = "Part 4",
+        subtitle = "Kotlin 기초",
+        fileName = "interview_questions_part4.json",
+        totalQuestions = 30,
+        topics = listOf("val/var", "Extension", "Scope fn", "Sealed", "Generic"),
+        gradientStart = 0xFF00897B,
+        gradientEnd = 0xFF4CAF50
+    ),
+    InterviewPart(
+        partNumber = 5,
+        title = "Part 5",
+        subtitle = "Coroutines",
+        fileName = "interview_questions_part5.json",
+        totalQuestions = 22,
+        topics = listOf("Suspend", "Scope", "Dispatcher", "Channel", "Job"),
+        gradientStart = 0xFFAD1457,
+        gradientEnd = 0xFF7B1FA2
+    ),
+    InterviewPart(
+        partNumber = 6,
+        title = "Part 6",
+        subtitle = "Kotlin Flow",
+        fileName = "interview_questions_part6.json",
+        totalQuestions = 16,
+        topics = listOf("Cold/Hot", "StateFlow", "SharedFlow", "Operator", "Backpressure"),
+        gradientStart = 0xFF0288D1,
+        gradientEnd = 0xFF00BCD4
+    ),
+    InterviewPart(
+        partNumber = 7,
+        title = "Part 7",
+        subtitle = "Jetpack Compose",
+        fileName = "interview_questions_part7.json",
+        totalQuestions = 19,
+        topics = listOf("Composable", "Modifier", "State", "Recomposition", "SideEffect"),
+        gradientStart = 0xFF558B2F,
+        gradientEnd = 0xFF8BC34A
+    ),
+    InterviewPart(
+        partNumber = 8,
+        title = "Part 8",
+        subtitle = "아키텍처 패턴",
+        fileName = "interview_questions_part8.json",
+        totalQuestions = 10,
+        topics = listOf("MVVM", "MVI", "Clean Arch", "Repository", "UseCase"),
+        gradientStart = 0xFFC62828,
+        gradientEnd = 0xFFFF7043
     )
 )
