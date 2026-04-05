@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.FlowRow
 import com.windrr.androidinterview.model.InterviewPart
 import com.windrr.androidinterview.model.interviewParts
 import com.windrr.androidinterview.ui.theme.*
@@ -120,6 +121,7 @@ fun PartSelectionScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun PartCard(
     part: InterviewPart,
@@ -215,12 +217,13 @@ private fun PartCard(
 
             Spacer(Modifier.height(16.dp))
 
-            // 토픽 태그들
-            Row(
+            // 토픽 태그들 — FlowRow로 자연스럽게 줄바꿈
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                part.topics.take(4).forEach { topic ->
+                part.topics.forEach { topic ->
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))
@@ -232,20 +235,6 @@ private fun PartCard(
                             color = gradStart,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                if (part.topics.size > 4) {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(CardElevated)
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    ) {
-                        Text(
-                            text = "+${part.topics.size - 4}",
-                            color = TextHint,
-                            fontSize = 11.sp
                         )
                     }
                 }
