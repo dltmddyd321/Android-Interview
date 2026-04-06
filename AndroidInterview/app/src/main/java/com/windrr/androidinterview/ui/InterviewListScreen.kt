@@ -46,6 +46,7 @@ fun InterviewListScreen(
     val questions by viewModel.questions.collectAsStateWithLifecycle()
     val checkedIds by viewModel.checkedIds.collectAsStateWithLifecycle()
     var selectedQuestion by remember { mutableStateOf<InterviewQuestion?>(null) }
+    var showResetDialog by remember { mutableStateOf(false) }
 
     val checkedCount = checkedIds.size
     val totalCount = questions.size
@@ -94,7 +95,7 @@ fun InterviewListScreen(
                             // 초기화 버튼
                             if (checkedCount > 0) {
                                 IconButton(
-                                    onClick = { viewModel.resetProgress() },
+                                    onClick = { showResetDialog = true },
                                     modifier = Modifier
                                         .size(40.dp)
                                         .clip(CircleShape)
@@ -230,6 +231,52 @@ fun InterviewListScreen(
                 isChecked = q.id in checkedIds,
                 onDismiss = { selectedQuestion = null },
                 onMarkChecked = { viewModel.markAsChecked(q.id) }
+            )
+        }
+
+        // ─── 초기화 확인 다이얼로그 ───────────────────────────────────
+        if (showResetDialog) {
+            AlertDialog(
+                onDismissRequest = { showResetDialog = false },
+                containerColor = SurfaceDark,
+                titleContentColor = TextPrimary,
+                textContentColor = TextSecondary,
+                title = {
+                    Text(
+                        text = "학습 기록 초기화",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                },
+                text = {
+                    Text(
+                        text = "${checkedCount}개의 학습 완료 기록이 모두 삭제됩니다.\n초기화하시겠습니까?",
+                        fontSize = 14.sp,
+                        lineHeight = 22.sp
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.resetProgress()
+                            showResetDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = "초기화",
+                            color = Color(0xFFFF5252),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showResetDialog = false }) {
+                        Text(
+                            text = "취소",
+                            color = TextSecondary
+                        )
+                    }
+                }
             )
         }
     }
