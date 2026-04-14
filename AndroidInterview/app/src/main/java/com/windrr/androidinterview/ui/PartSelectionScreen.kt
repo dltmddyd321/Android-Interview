@@ -1,5 +1,8 @@
 package com.windrr.androidinterview.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +35,8 @@ import com.windrr.androidinterview.ui.theme.*
 fun PartSelectionScreen(
     onPartSelected: (InterviewPart) -> Unit
 ) {
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -116,6 +122,37 @@ fun PartSelectionScreen(
                 fontSize = 13.sp,
                 textAlign = TextAlign.Center
             )
+
+            Spacer(Modifier.height(14.dp))
+
+            Text(
+                text = "틀린 문제나 추가 되었으면 하는 문제를 요청해주세요!",
+                color = IndigoLight,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = ripple()
+                    ) {
+                        val emailIntent = Intent(
+                            Intent.ACTION_SENDTO,
+                            Uri.parse("mailto:dltmddyd321@naver.com")
+                        ).apply {
+                            putExtra(Intent.EXTRA_SUBJECT, "AndroidInterview 문제 요청")
+                            putExtra(Intent.EXTRA_TEXT, "추가/수정 요청 내용:\n\n")
+                        }
+
+                        try {
+                            context.startActivity(emailIntent)
+                        } catch (_: ActivityNotFoundException) {
+                        }
+                    }
+                    .padding(horizontal = 14.dp, vertical = 10.dp)
+            )
+
             Spacer(Modifier.height(32.dp))
         }
     }
