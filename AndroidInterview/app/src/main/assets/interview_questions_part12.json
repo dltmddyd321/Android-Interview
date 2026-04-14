@@ -1,0 +1,117 @@
+[
+  {
+    "id": 221,
+    "question": "[Android] 화면 회전과 프로세스 종료 시 데이터 유지 방식의 차이점은 무엇인가요?",
+    "answer": "ViewModel은 화면 회전과 같은 설정 변경 시에는 소멸하지 않고 데이터를 유지하지만, 백그라운드 프로세스 종료 시에는 소멸합니다. 반면 onSaveInstanceState(또는 SavedStateHandle)는 데이터를 직렬화하여 저장하므로 프로세스 종료 후에도 복구가 가능하지만, 저장 용량에 제한이 있습니다."
+  },
+  {
+    "id": 222,
+    "question": "[Android] 멀티 윈도우 환경에서 앱이 화면에 보이지만 포커스를 잃었을 때의 생명 주기는?",
+    "answer": "onStop이 아닌 onPause 상태에 머무르게 됩니다. 단, 안드로이드 10부터는 Multi-Resume 기능이 도입되어 두 앱이 모두 포커스를 가질 수 있는 환경이라면 동시에 onResume 상태를 유지할 수 있습니다."
+  },
+  {
+    "id": 223,
+    "question": "[Android] Fragment에서 LiveData나 Flow 관찰 시 this 대신 viewLifecycleOwner를 사용하는 이유는?",
+    "answer": "Fragment 자체의 생명 주기와 내부 View의 생명 주기가 분리되어 있기 때문입니다. Fragment가 백스택에 들어갔다 돌아올 때 View는 재생성되지만 Fragment 인스턴스는 유지되므로, this를 사용하면 중복 관찰로 인한 메모리 누수가 발생할 수 있습니다."
+  },
+  {
+    "id": 224,
+    "question": "[Android] 다이얼로그나 투명 테마의 Activity를 띄울 때 바닥에 있는 Activity의 생명 주기는 어떻게 변하나요?",
+    "answer": "일반 AlertDialog는 기존 Activity의 생명 주기에 영향을 주지 않습니다. 반면, 투명한 테마의 Activity(Dialog-themed Activity)를 띄우면 기존 Activity는 전체가 가려지지 않으므로 onStop이 아닌 onPause 상태까지만 호출됩니다."
+  },
+  {
+    "id": 225,
+    "question": "[Android] UI 계층에서 Flow 수집 시 launchWhenStarted와 repeatOnLifecycle의 차이는?",
+    "answer": "launchWhenStarted는 생명 주기가 onStop으로 내려가도 코루틴을 일시 정지(Suspend)만 하여 백그라운드 리소스를 낭비할 수 있습니다. 반면 repeatOnLifecycle은 조건에 맞지 않으면 코루틴을 완전히 취소하고 다시 시작하여 리소스 누수를 방지합니다."
+  },
+  {
+    "id": 226,
+    "question": "[Android] A 액티비티에서 B 액티비티로 이동할 때의 기본적인 생명 주기 흐름은?",
+    "answer": "A onPause -> B onCreate -> B onStart -> B onResume -> A onStop 순으로 호출됩니다. 사용자 경험(UX)상 끊김을 최소화하기 위해 새로운 화면인 B가 완전히 렌더링된 후 기존 화면 A가 중단됩니다."
+  },
+  {
+    "id": 227,
+    "question": "[Android] 시스템에 의해 백그라운드의 A 액티비티가 강제 종료(Process Killed)된 후 다시 돌아갈 때의 생명 주기는?",
+    "answer": "A 액티비티는 메모리에서 소멸되었으므로 onRestart가 아닌 onCreate부터 다시 시작됩니다. A onCreate(savedInstanceState) -> onStart -> onRestoreInstanceState -> onResume 순서로 진행되며 임시 저장된 상태를 복원합니다."
+  },
+  {
+    "id": 228,
+    "question": "[Android] 기존 startActivityForResult 대신 Activity Result API 사용을 권장하는 이유는?",
+    "answer": "기존 방식은 onActivityResult라는 단일 메서드에 여러 응답 처리가 몰려 코드가 파편화되는 문제가 있었습니다. Activity Result API는 런처 등록 시 콜백을 바로 정의하므로 응집도가 높고 메모리 누수 방지에 유리합니다."
+  },
+  {
+    "id": 229,
+    "question": "[Android] 화면 회전(Configuration Change) 시 기존 액티비티의 파괴 및 재생성 순서는?",
+    "answer": "기존 파괴(onPause -> onStop -> onSaveInstanceState -> onDestroy) 과정을 거친 후, 새로운 방향으로 재생성(onCreate -> onStart -> onRestoreInstanceState -> onResume)됩니다."
+  },
+  {
+    "id": 230,
+    "question": "[Architecture] MVVM 패턴 대비 MVI 패턴이 가지는 장점은 무엇인가요?",
+    "answer": "MVVM은 다수의 상태 스트림으로 인해 상태 파편화와 예기치 않은 충돌이 발생할 수 있습니다. MVI는 단방향 데이터 흐름(UDF)을 강제하고 사용자의 인텐트를 단일 상태 객체로 환원하여, 디버깅과 상태 재현이 매우 용이합니다."
+  },
+  {
+    "id": 231,
+    "question": "[Architecture] 클린 아키텍처에서 도메인(Domain) 계층을 분리하는 이유는 무엇인가요?",
+    "answer": "도메인 계층은 안드로이드 프레임워크나 외부 라이브러리에 의존하지 않는 순수 코드로 작성됩니다. 이를 통해 핵심 비즈니스 로직을 완벽하게 고립시켜 빠르고 안정적인 유닛 테스트를 가능하게 합니다."
+  },
+  {
+    "id": 232,
+    "question": "[Architecture] 멀티 모듈(Multi-Module) 아키텍처의 핵심 장단점은?",
+    "answer": "장점은 모듈별 병렬/점진적 빌드로 인해 빌드 속도가 획기적으로 단축되며, 계층 간 의존성을 강제로 격리할 수 있다는 점입니다. 단점은 모듈 간 탐색 비용이 발생하고 Gradle 등 환경 설정이 복잡해진다는 점입니다."
+  },
+  {
+    "id": 233,
+    "question": "[Architecture] DI(의존성 주입) 환경에서 스코프(Scope) 어노테이션을 지정하는 이유는?",
+    "answer": "객체의 무분별한 중복 생성을 막고 메모리를 효율적으로 관리하기 위함입니다. 앱 전체 수명과 함께해야 하는 객체는 @Singleton, 특정 화면과 수명을 같이하는 객체는 @ViewModelScoped 등으로 범위를 제한합니다."
+  },
+  {
+    "id": 234,
+    "question": "[Kotlin] StateFlow와 SharedFlow의 차이점은 무엇이며 언제 사용하나요?",
+    "answer": "StateFlow는 초기값이 필수이며 최신 상태 1개만 보존(Conflation)하므로 UI 상태 관리에 적합합니다. SharedFlow는 초기값이 없고 이전 이벤트를 캐싱할 수 있어 스낵바 노출이나 화면 이동 같은 일회성 이벤트 처리에 적합합니다."
+  },
+  {
+    "id": 235,
+    "question": "[Kotlin] Cold Stream과 Hot Stream의 차이는 무엇인가요?",
+    "answer": "일반 Flow 같은 Cold Stream은 구독자(Collector)가 수집을 시작해야만 데이터를 방출하고 로직이 실행됩니다. StateFlow나 SharedFlow 같은 Hot Stream은 구독자 유무와 관계없이 지속적으로 데이터를 방출합니다."
+  },
+  {
+    "id": 236,
+    "question": "[Kotlin] 코루틴 Dispatchers.IO와 Default의 스레드 할당 방식 차이는?",
+    "answer": "Default는 CPU 코어 수만큼 스레드를 생성하여 정렬 등 연산 집약적인 작업에 유리합니다. IO는 코어 수보다 훨씬 많은 스레드를 생성하여 네트워크 통신이나 DB 접근처럼 스레드 대기(Block) 시간이 긴 작업에 적합합니다."
+  },
+  {
+    "id": 237,
+    "question": "[Kotlin] Suspend 함수의 내부 동작 원리는 무엇인가요?",
+    "answer": "컴파일러가 Suspend 함수를 상태 기계(State Machine)와 Continuation-Passing Style로 변환합니다. 일시 중단 시 Continuation 객체에 현재의 로컬 변수와 상태 지점(Label)을 저장하고, 재개 시 이를 복원하여 남은 코드를 실행합니다."
+  },
+  {
+    "id": 238,
+    "question": "[Performance] 안드로이드 메모리 누수(Memory Leak)의 주된 원인과 탐지 방법은?",
+    "answer": "주로 생명 주기가 짧은 객체(예: Activity)를 생명 주기가 긴 객체(Singleton, 백그라운드 코루틴 등)가 참조 해제하지 않아 발생합니다. LeakCanary로 조기 탐지하고 Memory Profiler를 통해 참조 트리를 분석해 해결합니다."
+  },
+  {
+    "id": 239,
+    "question": "[Performance] ANR(Application Not Responding)의 원인과 해결 방법은?",
+    "answer": "UI를 담당하는 메인 스레드가 5초 이상 블록(Block)될 때 발생합니다. Play Console Vitals나 /data/anr/traces.txt 파일을 통해 블록된 원인을 찾고, 데이터베이스 I/O나 무거운 연산을 백그라운드 스레드로 분리하여 해결합니다."
+  },
+  {
+    "id": 240,
+    "question": "[Performance] RecyclerView 성능 최적화를 위한 기법들은 무엇이 있나요?",
+    "answer": "notifyDataSetChanged 대신 DiffUtil을 사용하여 변경된 아이템만 부분 업데이트합니다. 이 외에도 뷰 계층 깊이(Depth) 최소화, 고정 크기 지정(setHasFixedSize), 중첩 리스트의 경우 뷰홀더 풀(ViewPool) 공유 기법 등을 사용합니다."
+  },
+  {
+    "id": 241,
+    "question": "[Compose] Compose UI에서 불필요한 Recomposition(재구성)을 막는 방법은?",
+    "answer": "remember 함수를 활용해 무거운 연산 결과를 캐싱하고, 사용자 정의 데이터 클래스가 변경되지 않음을 보장하기 위해 @Stable이나 @Immutable 어노테이션을 부여하여 컴파일러가 재구성을 건너뛰게 돕습니다."
+  },
+  {
+    "id": 242,
+    "question": "[Compose] 상태 호이스팅(State Hoisting) 패턴이란 무엇인가요?",
+    "answer": "내부 상태를 갖는(Stateful) 컴포저블의 상태를 호출자 위치로 끌어올려, 상태가 없는(Stateless) 컴포저블로 만드는 패턴입니다. 이를 통해 컴포저블의 재사용성을 높이고 유닛 테스트를 쉽게 구현할 수 있습니다."
+  },
+  {
+    "id": 243,
+    "question": "[Compose] 기존 XML 레이아웃과 Compose 간의 상호 운용성(Interoperability) 구현 방식은?",
+    "answer": "기존 XML 레이아웃 파일 내부의 특정 영역을 Compose UI로 대체할 때는 ComposeView를 사용하고, 반대로 Compose 코드 내부에서 기존 레거시 Android 뷰(예: MapView)를 띄워야 할 때는 AndroidView를 사용합니다."
+  }
+]

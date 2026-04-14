@@ -121,5 +121,15 @@ val interviewParts = listOf(
         topics = listOf("ACID", "Index", "Transaction", "Foreign Key", "Room"),
         gradientStart = 0xFF1B5E20,
         gradientEnd = 0xFF43A047
+    ),
+    InterviewPart(
+        partNumber = 12,
+        title = "Part 12",
+        subtitle = "심화",
+        fileName = "interview_questions_part12.json",
+        totalQuestions = 23,
+        topics = listOf("Lifecycle", "Architecture", "Kotlin", "Performance", "Compose"),
+        gradientStart = 0xFF0D47A1,
+        gradientEnd = 0xFF1976D2
     )
 )
